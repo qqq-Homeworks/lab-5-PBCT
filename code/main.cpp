@@ -1,26 +1,23 @@
 #include <iostream>
 #include "MyVector.hpp"
 #include "MySet.hpp"
-#include "MyVector.cpp"
-#include "MySet.cpp"
 using namespace std;
 
 int main ()
 {
-    setlocale(0,"russian");
     MyVector v("Hello!");
     v.add_element("Привет!");
     v.add_element("Привет!");
     v.add_element("Привет!");
     v.add_element("Привет!");
     v.add_element("Привет!");
-    cout<<"Вектор v: "<<v<<endl;
+    cout<<"Вектор v:\n"<<v<<endl;
     v.add_element("Привет!");
     v.add_element("Привет!");
     v.add_element("Привет!");
-    cout<<"Вектор v: "<<v<<endl;
+    cout<<"Вектор v:\n"<<v<<endl;
     MyVector v1=v;
-    cout<<"Вектор v1: "<<v1<<endl;
+    cout<<"Вектор v1:\n"<<v1<<endl;
     for(int i=0;i<MAX_SIZE;i++)
         v1.delete_element(0);
     cout<<"Вектор v1: "<<v1<<endl;

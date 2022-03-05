@@ -4,27 +4,33 @@
 #include "MyVector.hpp"
 
 MyVector::MyVector(char *el, int maxsz) : maxsize(maxsz) {
-    *pdata = el;
+    size = 1;
+    pdata = new char *;
+    *pdata = new char[strlen(el) + 1];
+    strcpy(*pdata, el);
 }
 
 void MyVector::sort() {
     std::sort(this->pdata, this->pdata + size, [](const char *first, const char *second) {
-        return strcmp(first, second);
+        return strcmp(first, second) < 0;
     });
 }
 
 void MyVector::resize() {
     if (size >= maxsize)
-        maxsize = (maxsize / 2) * 3;
-    else if (size <= size / 2)
-        maxsize = (maxsize / 3) * 2;
+        maxsize = (maxsize / 2 + 1) * 3;
+    else if (size <= maxsize / 2)
+        maxsize = (maxsize / 3 + 1) * 2;
     else return;
     char **newMemory = new char *[maxsize];
-    for (size_t i = 0; i < size; ++i) {
-        newMemory[i] = pdata[i];
+
+    for (size_t i = 0; i < size - 1; ++i) {
+        newMemory[i] = new char[strlen(pdata[i]) + 1];
+        strcpy(newMemory[i], pdata[i]);
     }
-    for (size_t i = 0; i < size; ++i) {
+    for (size_t i = 0; i < size - 1; ++i) {
         delete[] pdata[i];
+
     }
     delete[] pdata;
     pdata = newMemory;
@@ -33,6 +39,7 @@ void MyVector::resize() {
 MyVector::MyVector(const MyVector &v) : maxsize(v.maxsize), size(v.size) {
     pdata = new char *[v.maxsize];
     for (size_t i = 0; i < size; ++i) {
+        pdata[i] = new char[strlen(v.pdata[i]) + 1];
         strcpy(pdata[i], v.pdata[i]);
     }
 }
@@ -40,8 +47,8 @@ MyVector::MyVector(const MyVector &v) : maxsize(v.maxsize), size(v.size) {
 void MyVector::add_element(char *el) {
     size++;
     resize();
-    strcpy(pdata[size], el);
-    sort();
+    pdata[size - 1] = new char[strlen(el) + 1];
+    strcpy(pdata[size - 1], el);
 }
 
 MyVector::~MyVector() {
@@ -53,13 +60,12 @@ MyVector::~MyVector() {
 
 bool MyVector::delete_element(int i) {
     if (i > -1 && i < size) {
-        delete[] pdata[i];
-        for (size_t j = i; j < size - 1; ++j) {
-            pdata[j] = pdata[j + 1];
-        }
         size--;
+        for (size_t j = i; j < size; ++j) {
+            pdata[j] = new char[strlen(pdata[j + 1]) + 1];
+            strcpy(pdata[j], pdata[j + 1]);
+        }
         resize();
-        sort();
         return true;
     } else
         return false;
@@ -81,6 +87,7 @@ MyVector &MyVector::operator=(const MyVector &v) {
         size = v.size;
         pdata = new char *[v.maxsize];
         for (size_t i = 0; i < size; ++i) {
+            pdata[i] = new char[strlen(v.pdata[i]) + 1];
             strcpy(pdata[i], v.pdata[i]);
         }
     }
@@ -89,7 +96,7 @@ MyVector &MyVector::operator=(const MyVector &v) {
 
 ostream &operator<<(ostream &out, MyVector &v) {
     for (size_t i = 0; i < v.size; ++i) {
-        out << '[' << i << ']' << " : " << v.pdata[i] << '\n';
+        out << '[' << i << ']' << " : " << "{\"" << v.pdata[i] << "\"}" << endl;
     }
     return out;
 }

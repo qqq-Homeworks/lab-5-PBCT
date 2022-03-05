@@ -13,9 +13,9 @@ class MySet : public MyVector {
 public:
     MySet(char *el = nullptr) : MyVector(el) {};
 
-    friend ostream &operator<<(ostream &out, MySet &s);
+    friend ostream &operator<<(ostream &out, MySet &s); //DONE
 
-    friend MySet operator+(MySet &s1, MySet &s2);
+    friend MySet operator+(MySet &s1, MySet &s2); // DONE
 
     friend MySet operator-(MySet &s1, MySet &s2);
 
@@ -29,11 +29,14 @@ public:
 
     MySet &operator*=(MySet &s);
 
-    void add_element(char *el);
+    void add_element(char *el); //DONE
 
-    void delete_element(char *el);
+    void delete_element(char *el); // DONE
 
-    bool is_element(char *el);
+    bool is_element(char *el); //DONE
+
+private:
+    int q_find(char* el);
 };
 
 
