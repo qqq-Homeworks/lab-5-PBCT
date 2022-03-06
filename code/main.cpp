@@ -1,6 +1,8 @@
 #include <iostream>
+
 #include "MyVector.hpp"
 #include "MySet.hpp"
+
 using namespace std;
 
 int main ()
@@ -61,6 +63,15 @@ int main ()
     if(s1==s3)
         cout<<"Множество s1=s3\n";
     else
-        cout<<"Множество s1!=s3\n";
+        cout<<"Множество s1!=s3\n\n
+
+    MyVector<int> mv;
+    mv.add_element(1);
+    mv.add_element(2);
+    mv.add_element(3);
+    mv.add_element(4);
+    mv.add_element(5);
+    std::cout << mv << std::endl;
+
     return 0;
 }

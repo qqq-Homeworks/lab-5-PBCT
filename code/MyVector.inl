@@ -1,8 +1,6 @@
 // Copyright 2021 qqq <polyakovdd@student.bmstu.ru>
 
 
-#include "MyVector.hpp"
-
 template<typename T>
 MyVector<T>::MyVector() {
     size = 0;

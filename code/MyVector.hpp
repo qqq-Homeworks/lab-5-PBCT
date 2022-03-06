@@ -48,5 +48,7 @@ private:
     void resize(); // done
 };
 
+#include "MyVector.inl"
+
 #endif
 

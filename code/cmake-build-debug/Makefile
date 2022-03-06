@@ -129,54 +129,6 @@ code/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/build
 .PHONY : code/fast
 
-MySet.o: MySet.cpp.o
-.PHONY : MySet.o
-
-# target to build an object file
-MySet.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/MySet.cpp.o
-.PHONY : MySet.cpp.o
-
-MySet.i: MySet.cpp.i
-.PHONY : MySet.i
-
-# target to preprocess a source file
-MySet.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/MySet.cpp.i
-.PHONY : MySet.cpp.i
-
-MySet.s: MySet.cpp.s
-.PHONY : MySet.s
-
-# target to generate assembly for a file
-MySet.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/MySet.cpp.s
-.PHONY : MySet.cpp.s
-
-MyVector.o: MyVector.cpp.o
-.PHONY : MyVector.o
-
-# target to build an object file
-MyVector.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/MyVector.cpp.o
-.PHONY : MyVector.cpp.o
-
-MyVector.i: MyVector.cpp.i
-.PHONY : MyVector.i
-
-# target to preprocess a source file
-MyVector.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/MyVector.cpp.i
-.PHONY : MyVector.cpp.i
-
-MyVector.s: MyVector.cpp.s
-.PHONY : MyVector.s
-
-# target to generate assembly for a file
-MyVector.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/code.dir/build.make CMakeFiles/code.dir/MyVector.cpp.s
-.PHONY : MyVector.cpp.s
-
 main.o: main.cpp.o
 .PHONY : main.o
 
@@ -210,12 +162,6 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... code"
-	@echo "... MySet.o"
-	@echo "... MySet.i"
-	@echo "... MySet.s"
-	@echo "... MyVector.o"
-	@echo "... MyVector.i"
-	@echo "... MyVector.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

@@ -78,13 +78,7 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/Users/qqq/Documents/University/1 course/2 term/PBCT/5 lab/code/MySet.cpp">
-			<Option target="code"/>
-		</Unit>
 		<Unit filename="/Users/qqq/Documents/University/1 course/2 term/PBCT/5 lab/code/MySet.hpp">
-			<Option target="code"/>
-		</Unit>
-		<Unit filename="/Users/qqq/Documents/University/1 course/2 term/PBCT/5 lab/code/MyVector.cpp">
 			<Option target="code"/>
 		</Unit>
 		<Unit filename="/Users/qqq/Documents/University/1 course/2 term/PBCT/5 lab/code/MyVector.hpp">

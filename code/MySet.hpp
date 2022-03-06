@@ -45,6 +45,6 @@ public:
 private:
     int q_find(T el);
 };
-
+#include "MySet.inl"
 
 #endif //CODE_MYVECTOR_HPP

@@ -3,4 +3,4 @@ project(code)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(code main.cpp MyVector.cpp MyVector.hpp MySet.cpp MySet.hpp)
+add_executable(code main.cpp MyVector.hpp MySet.hpp)

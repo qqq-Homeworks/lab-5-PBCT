@@ -11,10 +11,18 @@ iostream
 -
 MyVector.hpp
 /Users/qqq/Documents/University/1 course/2 term/PBCT/5 lab/code/MyVector.hpp
+MySet.inl
+/Users/qqq/Documents/University/1 course/2 term/PBCT/5 lab/code/MySet.inl
+
+/Users/qqq/Documents/University/1 course/2 term/PBCT/5 lab/code/MySet.inl
 
 /Users/qqq/Documents/University/1 course/2 term/PBCT/5 lab/code/MyVector.hpp
 iostream
 -
+MyVector.inl
+/Users/qqq/Documents/University/1 course/2 term/PBCT/5 lab/code/MyVector.inl
+
+/Users/qqq/Documents/University/1 course/2 term/PBCT/5 lab/code/MyVector.inl
 
 /Users/qqq/Documents/University/1 course/2 term/PBCT/5 lab/code/main.cpp
 iostream

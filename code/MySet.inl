@@ -1,8 +1,5 @@
 // Copyright 2021 qqq <polyakovdd@student.bmstu.ru>
 
-
-#include "MySet.hpp"
-
 template<>
 void MySet<char *>::add_element(char *el) {
     MyVector<char *>::add_element(el);
