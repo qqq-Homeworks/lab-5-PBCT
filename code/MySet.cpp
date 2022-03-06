@@ -3,20 +3,20 @@
 
 #include "MySet.hpp"
 
-void MySet::add_element(char *el) {
-    MyVector::add_element(el);
-    sort();
+template<>
+void MySet<char *>::add_element(char *el) {
+    MyVector<char *>::add_element(el);
+    MyVector<char *>::sort();
 }
 
-void MySet::delete_element(char *el) {
-    int q = q_find(el);
-    if (q != -1) {
-        MyVector::delete_element(q);
-        sort();
-    }
+template<typename T>
+void MySet<T>::add_element(T el) {
+    MyVector<T>::add_element(el);
+    MyVector<T>::sort();
 }
 
-int MySet::q_find(char *el) {
+template<>
+int MySet<char *>::q_find(char *el) {
     int left = 0;
     int right = size - 1;
     int mid = 0;
@@ -33,56 +33,148 @@ int MySet::q_find(char *el) {
     }
 }
 
-bool MySet::is_element(char *el) {
+template<typename T>
+int MySet<T>::q_find(T el) {
+    int left = 0;
+    int right = this->size - 1;
+    int mid = 0;
+    while (true) {
+        mid = (left + right) / 2;
+        if (el < this->pdata[mid])
+            right = mid - 1;
+        else if (el > this->pdata[mid])
+            left = mid + 1;
+        else
+            return mid;
+        if (left > right)
+            return -1;
+    }
+}
+
+template<>
+void MySet<char *>::delete_element(char *el) {
+    int q = q_find(el);
+    if (q != -1) {
+        MyVector<char *>::delete_element(q);
+        MyVector<char *>::sort();
+    }
+}
+
+template<typename T>
+void MySet<T>::delete_element(T el) {
+    int q = q_find(el);
+    if (q != -1) {
+        MyVector<T>::delete_element(q);
+        MyVector<T>::sort();
+    }
+}
+
+
+template<typename T>
+bool MySet<T>::is_element(T el) {
     if (q_find(el) != -1) return true;
     return false;
 }
 
-ostream &operator<<(ostream &out, MySet &s) {
+template<typename T>
+ostream &operator<<(ostream &out, MySet<T> &s) {
     for (size_t i = 0; i < s.size; ++i) {
         out << '[' << i << ']' << " : " << "{\"" << s.pdata[i] << "\"}" << '\n';
     }
     return out;
 }
 
-MySet operator+(MySet &s1, MySet &s2) {
-    MySet newSet;
-    for (size_t i = 0; i < s1.size; ++i) {
-        if (!s2.q_find(s1[i])) {
-            newSet.add_element(s1[i]);
-        }
+template<>
+ostream &operator<<(ostream &out, MySet<char *> &s) {
+    for (size_t i = 0; i < s.size; ++i) {
+        out << '[' << i << ']' << " : " << "{\"" << s.pdata[i] << "\"}" << '\n';
     }
+    return out;
+}
+
+
+template<typename T>
+MySet<T> operator+(MySet<T> &s1, MySet<T> &s2) {
+    MySet<T> newSet = s1;
     for (size_t i = 0; i < s2.size; ++i) {
-        if (!newSet.q_find(s2[i])) {
+        if (newSet.q_find(s2[i]) == -1) {
             newSet.add_element(s2[i]);
         }
     }
     return newSet;
 }
 
-MySet operator-(MySet &s1, MySet &s2) {
-    MySet newSet;
+template<>
+MySet<char*> operator+(MySet<char*> &s1, MySet<char*> &s2) {
+    MySet<char*> newSet = s1;
+    for (size_t i = 0; i < s2.size; ++i) {
+        if (newSet.q_find(s2[i]) == -1) {
+            newSet.add_element(s2[i]);
+        }
+    }
+    return newSet;
+}
+
+template<typename T>
+MySet<T> operator-(MySet<T> &s1, MySet<T> &s2) {
+    MySet<T> newSet;
     for (size_t i = 0; i < s1.size; ++i) {
-        if (!s2.q_find(s1[i])) {
+        if (s2.q_find(s1[i]) == -1) {
             newSet.add_element(s1[i]);
         }
     }
     return newSet;
 }
 
-MySet operator*(MySet &s1, MySet &s2) {
-    MySet newSet;
+template<>
+MySet<char*> operator-(MySet<char*> &s1, MySet<char*> &s2) {
+    MySet<char*> newSet;
     for (size_t i = 0; i < s1.size; ++i) {
-        if (s2.q_find(s1[i])) {
+        if (s2.q_find(s1[i]) == -1) {
             newSet.add_element(s1[i]);
         }
     }
     return newSet;
 }
 
-bool MySet::operator==(MySet &s) {
+template<typename T>
+MySet<T> operator*(MySet<T> &s1, MySet<T> &s2) {
+    MySet<T> newSet;
+    for (size_t i = 0; i < s1.size; ++i) {
+        if (s2.q_find(s1[i]) != -1) {
+            newSet.add_element(s1[i]);
+        }
+    }
+    return newSet;
+}
+
+template<>
+MySet<char*> operator*(MySet<char*> &s1, MySet<char*> &s2) {
+    MySet<char*> newSet;
+    for (size_t i = 0; i < s1.size; ++i) {
+        if (s2.q_find(s1[i]) != -1) {
+            newSet.add_element(s1[i]);
+        }
+    }
+    return newSet;
+}
+
+template<>
+bool MySet<char *>::operator==(MySet<char *> &s) {
     if (size == s.size) {
         for (size_t i = 0; i < size; ++i) {
+            if (strcmp(pdata[i], s[i]) != 0)
+                return false;
+        }
+        return true;
+    }
+    return false;
+}
+
+template<typename T>
+bool MySet<T>::operator==(MySet<T> &s) {
+    if (this->size == s.size) {
+        for (size_t i = 0; i < this->size; ++i) {
             if (this->pdata[i] != s[i])
                 return false;
         }
@@ -91,8 +183,22 @@ bool MySet::operator==(MySet &s) {
     return false;
 }
 
-MySet &MySet::operator+=(MySet &s) {
-    //return <#initializer#>;
+template<typename T>
+MySet<T> &MySet<T>::operator+=(MySet<T> &s) {
+    *this = *this + s;
+    return *this;
+}
+
+template<typename T>
+MySet<T> &MySet<T>::operator-=(MySet<T> &s) {
+    *this = *this - s;
+    return *this;
+}
+
+template<typename T>
+MySet<T> &MySet<T>::operator*=(MySet<T> &s) {
+    *this = *this * s;
+    return *this;
 }
 
 //{1, 4, 5, 6} * {1, 2, 3, 4} => {1, 4}

@@ -11,19 +11,21 @@ using namespace std;
 
 const int MAX_SIZE = 5;
 
+template<typename T>
 class MyVector {
 public:
-    MyVector(char * = nullptr, int = MAX_SIZE); // Done
+    MyVector(); // Done
+    MyVector(T, int = MAX_SIZE); // Done
 
     MyVector(const MyVector &v); // Done
 
     ~MyVector(); // Done
 
-    void add_element(char *el); // done
+    void add_element(T); // done
 
     bool delete_element(int i); // done
 
-    char *operator[](int i); // done
+    T operator[](int i); // done
 
     void sort(); //done
 
@@ -31,16 +33,17 @@ public:
 
     int Maxsize() { return maxsize; } // Done
 
-    int find(char *el); // Done
+    int find(T); // Done
 
-    MyVector &operator=(const MyVector &v); // Done
+    MyVector<T>& operator=(const MyVector<T> &v); // Done
 
-    friend ostream &operator<<(ostream &out, MyVector &v);// Done
+    template<typename T1>
+    friend ostream &operator<<(ostream &out, MyVector<T1> &v);// Done
 
 protected:
     int maxsize;
     int size;
-    char **pdata;
+    T *pdata;
 private:
     void resize(); // done
 };

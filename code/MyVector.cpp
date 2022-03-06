@@ -3,32 +3,62 @@
 
 #include "MyVector.hpp"
 
-MyVector::MyVector(char *el, int maxsz) : maxsize(maxsz) {
+template<typename T>
+MyVector<T>::MyVector() {
+    size = 0;
+    maxsize = MAX_SIZE;
+    pdata = new T[maxsize];
+}
+
+template<>
+MyVector<char *>::MyVector() {
+    size = 0;
+    maxsize = MAX_SIZE;
+    pdata = new char *[maxsize];
+}
+
+template<>
+MyVector<char *>::MyVector(char *el, int maxsz) : maxsize(maxsz) {
     size = 1;
-    pdata = new char *;
-    *pdata = new char[strlen(el) + 1];
+    pdata = new char *[maxsz];
+    pdata[0] = new char[strlen(el) + 1];
     strcpy(*pdata, el);
 }
 
-void MyVector::sort() {
+template<typename T>
+MyVector<T>::MyVector(T el, int maxsz) : maxsize(maxsz) {
+    size = 1;
+    pdata = new T[maxsz];
+    pdata[0] = el;
+}
+
+template<>
+void MyVector<char *>::sort() {
     std::sort(this->pdata, this->pdata + size, [](const char *first, const char *second) {
         return strcmp(first, second) < 0;
     });
 }
 
-void MyVector::resize() {
+template<typename T>
+void MyVector<T>::sort() {
+    std::sort(this->pdata, this->pdata + size);
+}
+
+template<>
+void MyVector<char *>::resize() {
     if (size >= maxsize)
         maxsize = (maxsize / 2 + 1) * 3;
-    else if (size <= maxsize / 2)
+    else if (maxsize != MAX_SIZE && size <= maxsize / 2)
         maxsize = (maxsize / 3 + 1) * 2;
     else return;
     char **newMemory = new char *[maxsize];
 
-    for (size_t i = 0; i < size - 1; ++i) {
+    for (size_t i = 0; i < size; ++i) {
+        if (pdata[i] == NULL) break;
         newMemory[i] = new char[strlen(pdata[i]) + 1];
         strcpy(newMemory[i], pdata[i]);
     }
-    for (size_t i = 0; i < size - 1; ++i) {
+    for (size_t i = 0; i < size; ++i) {
         delete[] pdata[i];
 
     }
@@ -36,7 +66,25 @@ void MyVector::resize() {
     pdata = newMemory;
 }
 
-MyVector::MyVector(const MyVector &v) : maxsize(v.maxsize), size(v.size) {
+template<typename T>
+void MyVector<T>::resize() {
+    if (size >= maxsize)
+        maxsize = (maxsize / 2 + 1) * 3;
+    else if (maxsize != MAX_SIZE && size <= maxsize / 2)
+        maxsize = (maxsize / 3 + 1) * 2;
+    else return;
+    T *newMemory = new T[maxsize];
+
+    for (size_t i = 0; i < size; ++i) {
+        if (pdata[i] == NULL) break;
+        newMemory[i] = pdata[i];
+    }
+    delete[] pdata;
+    pdata = newMemory;
+}
+
+template<>
+MyVector<char *>::MyVector(const MyVector &v) : maxsize(v.maxsize), size(v.size) {
     pdata = new char *[v.maxsize];
     for (size_t i = 0; i < size; ++i) {
         pdata[i] = new char[strlen(v.pdata[i]) + 1];
@@ -44,44 +92,110 @@ MyVector::MyVector(const MyVector &v) : maxsize(v.maxsize), size(v.size) {
     }
 }
 
-void MyVector::add_element(char *el) {
+template<typename T>
+MyVector<T>::MyVector(const MyVector &v) : maxsize(v.maxsize), size(v.size) {
+    pdata = new T[v.maxsize];
+    for (size_t i = 0; i < size; ++i) {
+        pdata[i] = v.pdata[i];
+    }
+}
+
+template<>
+void MyVector<char *>::add_element(char *el) {
     size++;
     resize();
     pdata[size - 1] = new char[strlen(el) + 1];
     strcpy(pdata[size - 1], el);
 }
 
-MyVector::~MyVector() {
+template<typename T>
+void MyVector<T>::add_element(T el) {
+    size++;
+    resize();
+    pdata[size - 1] = el;
+}
+
+template<>
+MyVector<char *>::~MyVector() {
     for (size_t i = 0; i < size; ++i) {
         delete[] pdata[i];
     }
     delete[] pdata;
 }
 
-bool MyVector::delete_element(int i) {
+template<typename T>
+MyVector<T>::~MyVector() {
+    delete[] pdata;
+}
+
+
+template<>
+bool MyVector<char *>::delete_element(int i) {
     if (i > -1 && i < size) {
-        size--;
-        for (size_t j = i; j < size; ++j) {
+        for (size_t j = i; j < size - 1; ++j) {
             pdata[j] = new char[strlen(pdata[j + 1]) + 1];
             strcpy(pdata[j], pdata[j + 1]);
         }
+        size--;
         resize();
         return true;
     } else
         return false;
 }
 
-char *MyVector::operator[](int i) {
+template<typename T>
+bool MyVector<T>::delete_element(int i) {
+    if (i > -1 && i < size) {
+        for (size_t j = i; j < size - 1; ++j) {
+            pdata[j] = pdata[j + 1];
+        }
+        size--;
+        resize();
+        return true;
+    } else
+        return false;
+}
+
+template<>
+char *MyVector<char *>::operator[](int i) {
     return pdata[i];
 }
 
-int MyVector::find(char *el) {
+template<typename T>
+T MyVector<T>::operator[](int i) {
+    return pdata[i];
+}
+
+template<typename T>
+int MyVector<T>::find(T el) {
+    int q = std::find_if(pdata, pdata + size, [el](T q) { return q == el; }) - pdata;
+    if (q == size) q = -1;
+    return q;
+}
+
+template<>
+int MyVector<char *>::find(char *el) {
     int q = std::find_if(pdata, pdata + size, [el](char *q) { return strcmp(q, el); }) - pdata;
     if (q == size) q = -1;
     return q;
 }
 
-MyVector &MyVector::operator=(const MyVector &v) {
+template<typename T>
+MyVector<T> &MyVector<T>::operator=(const MyVector<T> &v) {
+    if (this != &v) {
+        maxsize = v.maxsize;
+        size = v.size;
+        pdata = new T *[v.maxsize];
+        for (size_t i = 0; i < size; ++i) {
+            pdata[i] = new T;
+            pdata[i] = v.pdata[i];
+        }
+    }
+    return *this;
+}
+
+template<>
+MyVector<char *> &MyVector<char *>::operator=(const MyVector<char *> &v) {
     if (this != &v) {
         maxsize = v.maxsize;
         size = v.size;
@@ -94,11 +208,18 @@ MyVector &MyVector::operator=(const MyVector &v) {
     return *this;
 }
 
-ostream &operator<<(ostream &out, MyVector &v) {
+template<typename T>
+ostream &operator<<(ostream &out, MyVector<T> &v) {
     for (size_t i = 0; i < v.size; ++i) {
         out << '[' << i << ']' << " : " << "{\"" << v.pdata[i] << "\"}" << endl;
     }
     return out;
 }
 
-
+template<>
+ostream &operator<<(ostream &out, MyVector<char *> &v) {
+    for (size_t i = 0; i < v.size; ++i) {
+        out << '[' << i << ']' << " : " << "{\"" << v.pdata[i] << "\"}" << endl;
+    }
+    return out;
+}

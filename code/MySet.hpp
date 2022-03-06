@@ -9,17 +9,24 @@
 
 using namespace std;
 
-class MySet : public MyVector {
+template <typename T>
+class MySet : public MyVector<T> {
 public:
-    MySet(char *el = nullptr) : MyVector(el) {};
+    MySet() : MyVector<T>() {};
 
-    friend ostream &operator<<(ostream &out, MySet &s); //DONE
+    MySet(T el) : MyVector<T>(el, MAX_SIZE) {};
 
-    friend MySet operator+(MySet &s1, MySet &s2); // DONE
+    template <typename T1>
+    friend ostream &operator<<(ostream &out, MySet<T1> &s); //DONE
 
-    friend MySet operator-(MySet &s1, MySet &s2);
+    template <typename T1>
+    friend MySet<T1> operator+(MySet<T1> &s1, MySet<T1> &s2); // DONE
 
-    friend MySet operator*(MySet &s1, MySet &s2);
+    template <typename T1>
+    friend MySet<T1> operator-(MySet<T1> &s1, MySet<T1> &s2);
+
+    template <typename T1>
+    friend MySet<T1> operator*(MySet<T1> &s1, MySet<T1> &s2);
 
     bool operator==(MySet &s);
 
@@ -29,14 +36,14 @@ public:
 
     MySet &operator*=(MySet &s);
 
-    void add_element(char *el); //DONE
+    void add_element(T el); //DONE
 
-    void delete_element(char *el); // DONE
+    void delete_element(T el); // DONE
 
-    bool is_element(char *el); //DONE
+    bool is_element(T el); //DONE
 
 private:
-    int q_find(char* el);
+    int q_find(T el);
 };
 
 
